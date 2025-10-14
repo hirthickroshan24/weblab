@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>College Database</title>
+</head>
+<body>
+  <h1>College Data</h1>
+  <div id="collegeData">Loading...</div>
+
+  <script>
+    //  Correct inline XML (no leading spaces or newlines before <?xml)
+    const xmlText = `<?xml version="1.0" encoding="UTF-8"?>
+<college>
+  <department dept_id="D001">
+    <dept_name>Computer Science</dept_name>
+    <student student_id="S001">
+      <name>John Doe</name>
+      <email>john.doe@college.edu</email>
+      <cgpa>8.5</cgpa>
+    </student>
+    <student student_id="S002">
+      <name>Jane Smith</name>
+      <email>jane.smith@college.edu</email>
+      <cgpa>9.2</cgpa>
+    </student>
+  </department>
+  <department dept_id="D002">
+    <dept_name>Electrical Engineering</dept_name>
+    <student student_id="S003">
+      <name>Sarah Williams</name>
+      <email>sarah.w@college.edu</email>
+      <cgpa>8.9</cgpa>
+    </student>
+    <student student_id="S004">
+      <name>David Brown</name>
+      <email>david.b@college.edu</email>
+      <cgpa>8.1</cgpa>
+    </student>
+  </department>
+</college>`;
+
+    // Parse XML string
+    const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+    const collegeDiv = document.getElementById('collegeData');
+    collegeDiv.innerHTML = '';
+
+    //  Loop through departments
+    const depts = xml.getElementsByTagName('department');
+    for (let dept of depts) {
+      const deptName = dept.getElementsByTagName('dept_name')[0].textContent;
+      const deptDiv = document.createElement('div');
+      deptDiv.innerHTML = `<h2>${deptName}</h2>`;
+
+      // Loop through students in each department
+      const students = dept.getElementsByTagName('student');
+      for (let s of students) {
+        const name = s.getElementsByTagName('name')[0].textContent;
+        const email = s.getElementsByTagName('email')[0].textContent;
+        const cgpa = s.getElementsByTagName('cgpa')[0].textContent;
+        const stuDiv = document.createElement('div');
+        stuDiv.textContent = `${name} | ${email} | ${cgpa}`;
+        deptDiv.appendChild(stuDiv);
+      }
+
+      collegeDiv.appendChild(deptDiv);
+    }
+  </script>
+</body>
+</html>
