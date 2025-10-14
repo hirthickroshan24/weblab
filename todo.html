@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="todoApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Offline To-Do App</title>
+  <!-- Load AngularJS locally -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    
+</head>
+<body ng-controller="myCtrl">
+
+  <h2>Simple To-Do List (Offline)</h2>
+
+  <!-- Add Task -->
+  <input type="text" ng-model="newTask" placeholder="Enter task">
+  <button ng-click="addTask()">Add</button>
+
+  <!-- Task List -->
+  <ul>
+    <li ng-repeat="task in tasks">
+      <span ng-hide="task.editing">{{task.name}}</span>
+      <input type="text" ng-show="task.editing" ng-model="task.name">
+
+      <button ng-click="editTask(task)">Edit</button>
+      <button ng-click="updateTask(task)" ng-show="task.editing">Save</button>
+      <button ng-click="deleteTask($index)">Delete</button>
+    </li>
+  </ul>
+
+  <script>
+    // Define AngularJS app
+    var app = angular.module('todoApp', []);
+
+    // Define controller (changed name to myCtrl)
+    app.controller('myCtrl', function($scope) {
+      $scope.tasks = [];
+
+      // Create
+      $scope.addTask = function() {
+        if ($scope.newTask) {
+          $scope.tasks.push({ name: $scope.newTask, editing: false });
+          $scope.newTask = "";
+        }
+      };
+
+      // Edit
+      $scope.editTask = function(task) {
+        task.editing = true;
+      };
+
+      // Update
+      $scope.updateTask = function(task) {
+        task.editing = false;
+      };
+
+      // Delete
+      $scope.deleteTask = function(index) {
+        $scope.tasks.splice(index, 1);
+      };
+    });
+  </script>
+
+</body>
+</html>
