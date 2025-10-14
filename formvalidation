@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Validation with Descriptions</title>
+  <!-- Load AngularJS locally -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+<body ng-controller="myCtrl">
+
+  <h2>Registration Form</h2>
+
+  <form name="regForm" novalidate ng-submit="submitForm(regForm)">
+  <p>
+      <label>Name:</label><br>
+      <input type="text" name="name" ng-model="user.name" required>
+      <br>
+      <small>Enter your full name (required)</small>
+    </p>
+    <p>
+      <label>Email:</label><br>
+      <input type="email" name="email" ng-model="user.email" required>
+      <br>
+      <small>Must be a valid email format, e.g., user@example.com</small>
+    </p>
+
+    <p>
+      <label>Password:</label><br>
+      <input type="password" name="password" ng-model="user.password" ng-minlength="6" required>
+      <br>
+      <small>Password must be at least 6 characters long</small>
+    </p>
+
+    <p>
+      <label>Confirm Password:</label><br>
+      <input type="password" name="confirmPassword" ng-model="user.confirmPassword" required>
+      <br>
+      <small>Re-enter the same password for confirmation</small>
+    </p>
+
+    <button type="submit">Submit</button>
+
+  </form>
+
+  <p ng-if="submitted">Form Submitted Successfully!</p>
+
+  <script>
+    // Define AngularJS app
+    var app = angular.module('myApp', []);
+
+    // Controller
+    app.controller('myCtrl', function($scope) {
+      $scope.submitted = false;
+
+      // Submit function
+      $scope.submitForm = function(form) {
+
+        // Check for empty or invalid fields
+        if (!form.$valid) {
+          alert("Please fill all required fields correctly!");
+          return;
+        }
+
+        // Check password match
+        if ($scope.user.password !== $scope.user.confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+        }
+
+        // All validations passed
+        $scope.submitted = true;
+        alert("Form submitted successfully!");
+        console.log($scope.user);
+      };
+    });
+  </script>
+
+</body>
+</html>
