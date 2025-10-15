@@ -16,7 +16,7 @@ driver.get("file:///D:/web%20tech%20lab/project/student.html")
 WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "n")))
 
 # Fill the form
-driver.find_element(By.ID, "n").send_keys("Yazhini")
+driver.find_element(By.ID, "n").send_keys("roshan")
 driver.find_element(By.ID, "a").send_keys("21")
 
 # Submit the form
